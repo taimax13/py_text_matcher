@@ -64,9 +64,9 @@ def matcher(args):
                 res.append("" + text[i:m.start()] + "^" + text[m.start():m.end()] + "^")
                 i = m.end()
         else:
-            #timestamp,target,type,data...
+            #format: file_name:no_line:start_pos:matched_text
             for m in pattern.finditer(text):
-                res.append("{}".format(datetime.datetime.now()) + ":" + text[i:m.start()] + ":" + text[m.start():m.end()] + ":")
+                res.append("format:" + text[i:m.start()] + "no_line:start_pos:" + text[m.start():m.end()] + ":")
                 i = m.end()
         print(' '.join(res))
 
