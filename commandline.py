@@ -3,6 +3,7 @@
 
 # import modules used here -- sys is a very standard one
 import argparse
+import datetime
 import os.path
 import re
 
@@ -53,20 +54,21 @@ def matcher(args):
             text = f.read()
             f.close()
         i = 0
+        res=[]
         if color:
             for m in pattern.finditer(text):
-                print (""+Color.GREEN + text[i:m.start()] + Color.PURPLE + text[m.start():m.end()])
+                res.append(""+Color.GREEN + text[i:m.start()] + Color.PURPLE + text[m.start():m.end()])
                 i = m.end()
         elif underscore:
             for m in pattern.finditer(text):
-                print("" + text[i:m.start()] + "^" + text[m.start():m.end()] + "^")
+                res.append("" + text[i:m.start()] + "^" + text[m.start():m.end()] + "^")
                 i = m.end()
         else:
             #timestamp,target,type,data...
             for m in pattern.finditer(text):
-                print("" + text[i:m.start()] + ":" + text[m.start():m.end()] + ":")
+                res.append("{}".format(datetime.datetime.now()) + ":" + text[i:m.start()] + ":" + text[m.start():m.end()] + ":")
                 i = m.end()
-
+        print(' '.join(res))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("This is the parser for search of a pattern in file/s")
