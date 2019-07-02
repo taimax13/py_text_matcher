@@ -37,11 +37,12 @@ def matcher(args):
 
     matches = {}
     count_line=0
+    file_res="matches.txt"
     file_names = args.file or args.f
     for file_name in file_names:
         assert os.path.exists(file_name), "Error in validation of the path {} - PLEASE PROVIDE FULL PATH TO THE FILE".format(file_name)
         assert os.path.isfile(file_name), "Error in validation of the file {} is not a file - PLEASE PROVIDE VALID FILE".format(file_name)
-        with open('matches.txt', 'w') as f:
+        with open(file_res, 'w') as f:
             filetext = open(file_name, 'r')
             for line in filetext:
                 count_line+=1
@@ -50,6 +51,19 @@ def matcher(args):
         filetext.close()
         if color:
             # todo change the format, to print the line and color the mattching pattern
+            with open(file_res, 'r') as f:
+                text = f.read()
+                f.close()
+            for m in pattern.finditer(text):
+                i = 0;
+                output = "&lt;html&gt;"
+                output += "".join([text[i:m.start()],
+                                   "&lt;strong&gt;&lt;span style='color:%s'&gt;" % Color.PURPLE,
+                                   text[m.start():m.end()],
+                                   "&lt;/span&gt;&lt;/strong&gt;"])
+                i = m.end()
+            print
+            "".join([output, text[m.end():], "&lt;/html&gt;"])
             print(Color.PURPLE + '\t'.join(matches))
         elif underscore:
             # todo ^pattern^
