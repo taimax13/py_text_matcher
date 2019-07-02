@@ -24,7 +24,11 @@ Script accept list optional parameters which are mutually exclusive:
                   format: file_name:no_line:start_pos:matched_text
               
 to emphasise the pattern I took https://www.saltycrane.com/blog/2007/10/using-pythons-finditer-to-highlight/ 
-as an example                  
+as an example
+
+To run the script from terminal please use the following format:
+                  
+python commandline.py  -r "<pattern>" -f "<path-to-file/s>" -m
 
 
  
