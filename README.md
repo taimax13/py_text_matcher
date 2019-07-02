@@ -28,7 +28,14 @@ as an example
 
 To run the script from terminal please use the following format:
                   
-python commandline.py  -r "< pattern >" -f "<path-to-file/s>" -m
+python commandline.py  -r "< pattern >" -f "<path-to-file/s>" -m |-c |-u
+
+two files  example:
+
+python commandline.py  -r "pattern" -f "path-to/test_file" "path-to/test_file1"  -c | -m | -u
+
+
+
 
 
  
