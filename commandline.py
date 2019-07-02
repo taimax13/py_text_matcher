@@ -49,28 +49,25 @@ def matcher(args):
                 if re.search(pattern, line):
                     f.write(file_name+':'+str(count_line)+':'+line) #it is possible to avoid this step and cut/print right away from given target, but I prefer to work with already filtered stuff
         filetext.close()
+        with open(file_res, 'r') as f:
+            text = f.read()
+            f.close()
         if color:
-            # todo change the format, to print the line and color the mattching pattern
-            with open(file_res, 'r') as f:
-                text = f.read()
-                f.close()
+            i=0
             for m in pattern.finditer(text):
-                i = 0;
-                output = "&lt;html&gt;"
-                output += "".join([text[i:m.start()],
-                                   "&lt;strong&gt;&lt;span style='color:%s'&gt;" % Color.PURPLE,
-                                   text[m.start():m.end()],
-                                   "&lt;/span&gt;&lt;/strong&gt;"])
+                print (""+Color.GREEN + text[i:m.start()] + Color.PURPLE + text[m.start():m.end()])
                 i = m.end()
-            print
-            "".join([output, text[m.end():], "&lt;/html&gt;"])
-            print(Color.PURPLE + '\t'.join(matches))
         elif underscore:
-            # todo ^pattern^
-            print(Color.UNDERLINE + '\t'.join(matches))
+            i = 0
+            for m in pattern.finditer(text):
+                print("" + text[i:m.start()] + "^" + text[m.start():m.end()] + "^")
+                i = m.end()
         else:
-            position = re.search(pattern, filetext)
-            print("" + file_name + ":" + str(position.start()) + ":" + matches[0])
+            #timestamp,target,type,data...
+            i = 0
+            for m in pattern.finditer(text):
+                print("" + text[i:m.start()] + ":" + text[m.start():m.end()] + ":")
+                i = m.end()
 
 
 if __name__ == '__main__':
