@@ -22,6 +22,9 @@ Script accept list optional parameters which are mutually exclusive:
 -c ( --color ) which highlight matching text [1]
 -m ( --machine ) which generate machine readable output
                   format: file_name:no_line:start_pos:matched_text
+              
+to emphasise the pattern I took https://www.saltycrane.com/blog/2007/10/using-pythons-finditer-to-highlight/ 
+as an example                  
 
 
  
