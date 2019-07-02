@@ -52,19 +52,17 @@ def matcher(args):
         with open(file_res, 'r') as f:
             text = f.read()
             f.close()
+        i = 0
         if color:
-            i=0
             for m in pattern.finditer(text):
                 print (""+Color.GREEN + text[i:m.start()] + Color.PURPLE + text[m.start():m.end()])
                 i = m.end()
         elif underscore:
-            i = 0
             for m in pattern.finditer(text):
                 print("" + text[i:m.start()] + "^" + text[m.start():m.end()] + "^")
                 i = m.end()
         else:
             #timestamp,target,type,data...
-            i = 0
             for m in pattern.finditer(text):
                 print("" + text[i:m.start()] + ":" + text[m.start():m.end()] + ":")
                 i = m.end()
