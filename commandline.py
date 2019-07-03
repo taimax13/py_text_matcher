@@ -9,7 +9,8 @@ import re
 
 
 #####
-### meanwhile no usage for other then hardcoaded params in this class, can be improved as a coloe choice
+# meanwhile no usage for other then hardcoded params in this class,
+# can be improved as a color choice
 #####
 class Color:
     PURPLE = '\033[95m'
@@ -24,54 +25,71 @@ class Color:
     END = '\033[0m'
 
 
+def is_ascii(pattern):
+    """
+    :param pattern:
+    :validates: if pattern contains only ASCII regex symbols
+    """
+    assert len(pattern) == len(pattern.encode()), \
+        "ERROR IN PATTERN FORMAT VALIDATION Please provide \
+         a valid string(ASCII)"
+
+
 def matcher(args):
     # getting and validating pattern
     pattern = args.r or args.regex
-    is_ascii = lambda pattern: len(pattern) == len(pattern.encode())
-    assert is_ascii(pattern=pattern), "ERROR IN PATTERN FORMAT VALIDATION Please provide a valid string(ASCII)"
+    is_ascii(pattern=pattern)
     pattern = re.compile(pattern)
 
     # getting true/false on mutual excluded params
     color = args.color
     underscore = args.underscore
-    machine = args.machine  # not used in context of the function
 
-    matches = {}
-    count_line=0
-    file_res="matches.txt"
+    count_line = 0
+    file_res = "matches.txt"
     file_names = args.file or args.f
     for file_name in file_names:
-        assert os.path.exists(file_name), "Error in validation of the path {} - PLEASE PROVIDE FULL PATH TO THE FILE".format(file_name)
-        assert os.path.isfile(file_name), "Error in validation of the file {} is not a file - PLEASE PROVIDE VALID FILE".format(file_name)
+        assert os.path.exists(file_name), "Error in validation of the path {} \
+         - PLEASE PROVIDE FULL PATH TO THE FILE".format(file_name)
+        assert os.path.isfile(file_name), "Error in validation of  " \
+                                          "the file {} is not a file  - \
+                                          PLEASE PROVIDE VALID FILE" \
+            .format(file_name)
         with open(file_res, 'w') as f:
             filetext = open(file_name, 'r')
             for line in filetext:
-                count_line+=1
+                count_line += 1
                 if re.search(pattern, line):
-                    f.write(file_name+':'+str(count_line)+':'+line) #it is possible to avoid this step and cut/print right away from given target, but I prefer to work with already filtered stuff
+                    f.write(file_name + ':' + str(count_line) + ':' + line)
         filetext.close()
         with open(file_res, 'r') as f:
             text = f.read()
             f.close()
         i = 0
-        res=[]
+        res = []
         if color:
             for m in pattern.finditer(text):
-                res.append(""+Color.GREEN + text[i:m.start()] + Color.PURPLE + text[m.start():m.end()])
+                res.append("" + Color.GREEN + text[i:m.start()]
+                           + Color.PURPLE + text[m.start():m.end()])
                 i = m.end()
         elif underscore:
             for m in pattern.finditer(text):
-                res.append("" + text[i:m.start()] + "^" + text[m.start():m.end()] + "^")
+                res.append("" + text[i:m.start()] + "^"
+                           + text[m.start():m.end()] + "^")
                 i = m.end()
         else:
-            #format: file_name:no_line:start_pos:matched_text
+            # format: file_name:no_line:start_pos:matched_text
             for m in pattern.finditer(text):
-                res.append("format:" + text[i:m.start()] + "no_line:start_pos:" + text[m.start():m.end()] + ":")
+                res.append("format:" + text[i:m.start()] +
+                           "no_line:start_pos:" +
+                           text[m.start():m.end()] + ":")
                 i = m.end()
         print(' '.join(res))
 
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser("This is the parser for search of a pattern in file/s")
+    parser = argparse.ArgumentParser("This is the parser for \
+    search of a pattern in file/s")
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-u', '--underscore', action='store_true')
@@ -79,10 +97,12 @@ if __name__ == '__main__':
     group.add_argument('-m', '--machine', action='store_true')
 
     parser.add_argument('-r', '-regex', type=str,
-                        help='patter expression to look into the file', required=True)
+                        help='patter expression to look into the file',
+                        required=True)
 
     parser.add_argument('-f', '--file', type=str, nargs="+",
-                        help='File/s name to look for the pattern', required=True)
+                        help='File/s name to look for the pattern',
+                        required=True)
 
     args = parser.parse_args()
     matcher(args)
