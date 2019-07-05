@@ -1,13 +1,8 @@
 #!/usr/bin/env python
-#
-
-# import modules used here -- sys is a very standard one
 import argparse
 import re
 
 from result_printer import ResultPrinter
-
-
 
 
 def is_ascii(pattern):
@@ -32,7 +27,8 @@ def matcher(args):
 
     file_names = args.file or args.f
 
-    result_printer = ResultPrinter(filenames=file_names, color=color, underscore=underscore, pattern=pattern)
+    result_printer = ResultPrinter(filenames=file_names, color=color,
+                                   underscore=underscore, pattern=pattern)
     result_printer.print()
 
 
