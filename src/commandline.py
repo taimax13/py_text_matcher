@@ -9,7 +9,7 @@ parent_path = os.path.dirname(current_path)
 sys.path.append(parent_path)
 os.environ.setdefault('ResultPrinter', 'result_printer')
 
-from src.result_printer import ResultPrinter
+from src.result_helper.result_printer import ResultPrinter
 
 
 def is_ascii(pattern):
