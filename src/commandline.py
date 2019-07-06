@@ -21,16 +21,16 @@ def is_ascii(pattern):
          a valid string(ASCII)"
 
 
-def matcher(args):
-    pattern = args.r or args.regex
+def matcher(args_input):
+    pattern = args_input.r or args_input.regex
     is_ascii(pattern=pattern)
 
     pattern = re.compile(pattern)
 
-    color = args.color
-    underscore = args.underscore
+    color = args_input.color
+    underscore = args_input.underscore
 
-    file_names = args.file or args.f
+    file_names = args_input.file or args_input.f
 
     from src.result_helper.result_printer import ResultPrinter
     result_printer = ResultPrinter(filenames=file_names, color=color,
