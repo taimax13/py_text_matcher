@@ -1,8 +1,15 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
 import argparse
 import re
+import os, sys
 
-from result_printer import ResultPrinter
+current_path = os.path.abspath('.')
+parent_path = os.path.dirname(current_path)
+sys.path.append(parent_path)
+os.environ.setdefault('ResultPrinter', 'result_printer')
+
+from src.result_printer import ResultPrinter
 
 
 def is_ascii(pattern):
@@ -16,7 +23,6 @@ def is_ascii(pattern):
 
 
 def matcher(args):
-    # getting and validating pattern
     pattern = args.r or args.regex
     is_ascii(pattern=pattern)
 

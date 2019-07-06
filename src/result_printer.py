@@ -27,6 +27,7 @@ class ConstantsUsed:
 
 
 class ResultPrinter:
+
     def __init__(self, filenames, pattern, color, underscore):
         self.parser = None
         self.pattern = pattern
