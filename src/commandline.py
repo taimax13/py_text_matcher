@@ -2,14 +2,13 @@
 from __future__ import absolute_import
 import argparse
 import re
-import os, sys
+import os
+import sys
 
 current_path = os.path.abspath('.')
 parent_path = os.path.dirname(current_path)
 sys.path.append(parent_path)
 os.environ.setdefault('ResultPrinter', 'result_printer')
-
-from src.result_helper.result_printer import ResultPrinter
 
 
 def is_ascii(pattern):
@@ -33,6 +32,7 @@ def matcher(args):
 
     file_names = args.file or args.f
 
+    from src.result_helper.result_printer import ResultPrinter
     result_printer = ResultPrinter(filenames=file_names, color=color,
                                    underscore=underscore, pattern=pattern)
     result_printer.print()
