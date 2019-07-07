@@ -24,6 +24,7 @@ class ConstantsUsed:
     name of the file , where intermediate result is stored
     """
     TEXT_FILE_NAME = "matches.txt"
+    UNDERSCORE = "^"
 
 
 class ResultPrinter:
@@ -55,6 +56,7 @@ class Printer:
     res = []
     text = None
     i = 0
+    divider=None
 
     @staticmethod
     def create_matched_result(file_names, pattern):
@@ -80,6 +82,12 @@ class Printer:
                         f.write(file_name + ':' + str(count_line) + ':' + line)
             filetext.close()
 
+    def get_divider(self):
+        return self.divider
+
+    def set_divider(self, divider):
+        self.divider=divider
+
     def read_res_file(self):
         with open(ConstantsUsed.TEXT_FILE_NAME, 'r') as f:
             self.text = f.read()
@@ -104,10 +112,13 @@ class ColorPrinter(Printer):
 
 
 class UnderscorePrinter(Printer):
+    symbol = ConstantsUsed.UNDERSCORE
+
     def prepare_result(self, pattern):
+        self.set_divider(divider=self.symbol)
         for m in pattern.finditer(self.text):
-            self.res.append("" + self.text[self.i:m.start()] + "^"
-                            + self.text[m.start():m.end()] + "^")
+            self.res.append(" {}{}{}{}".format(self.text[self.i:m.start()], self.divider,
+                            self.text[m.start():m.end()], self.divider))
             self.i = m.end()
 
 
